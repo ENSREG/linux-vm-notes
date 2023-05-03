@@ -53,11 +53,20 @@
   addresses divided by 4KiB multiplied by 4 bytes to store each address) most of
   which will be empty the vast majority of the time.
 
+> 註解：
+> 為了節省 one by one mapping 使用的空間，作業系統普遍使用 Page 來映射 virtual address 和 physical address。
+> 它的概念很簡單，就是將記憶體分配成一塊一塊的區塊，一個 page 可以是 4KiB、2Mib、1GiB（多數都是 4KiB）。
+> 但這仍然會有問題，因為對於每個 process 都會需要 4MiB 來儲存這些映射的資訊。
+> 計算方式：每一筆映射資訊需要 4 bytes（32 位元的系統） X （4Gib 的可能映射記憶體空間 / 4KiB 的 Page size）
+
 * On a 64-bit system things are immediately ridiculous as you'd need 32PiB
   (i.e. 33,554,432 GiB) of storage for every process which is a little high. To
   be fair, current [x86-64][x86-64] systems allow access to less than the entire
   address space at once - a maximum of 48 bits or 256TiB, which would require a
   mere 256GiB per process.
+
+> 註解：
+> 用上面提到的計算方式，如果用在 64 位元的系統上顯然是荒妙的。
 
 ### Page Tables
 
